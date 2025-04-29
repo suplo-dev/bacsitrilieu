@@ -19,10 +19,16 @@ class Category extends Model
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
+    public function children(): HasMany
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
+
     public static function getAll() {
         return cache()->rememberForever('categories', function () {
             return Category::all();

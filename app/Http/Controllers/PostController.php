@@ -17,7 +17,7 @@ class PostController extends Controller
         $post->thumbnail_url = Storage::url($post->thumbnail_url);
         return Inertia::render('ViewPost', [
             'post' => $post,
-            'categories' => $categories,
+//            'categories' => $categories,
         ]);
     }
 }
