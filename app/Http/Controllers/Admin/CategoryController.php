@@ -42,7 +42,10 @@ class CategoryController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:categories,name',
             'slug' => 'required|string|max:255|unique:categories,slug',
-            'parent_id' => 'nullable|exists:categories,id'
+            'parent_id' => 'nullable|exists:categories,id',
+            'description' => 'nullable|string|max:255',
+            'background_color' => 'nullable|string|max:255',
+            'icon' => 'nullable|string',
         ]);
 
         try {
@@ -65,7 +68,11 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
-            'parent_id' => 'nullable|exists:categories,id'
+            'parent_id' => 'nullable|exists:categories,id',
+            'slug' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
+            'background_color' => 'nullable|string|max:255',
+            'icon' => 'nullable|string',
         ]);
 
         try {

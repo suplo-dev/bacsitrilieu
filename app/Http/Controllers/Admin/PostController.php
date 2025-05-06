@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 use Throwable;
@@ -48,12 +49,12 @@ class PostController extends Controller
     {
         try {
             $validated = $request->validated();
+            $post = Post::query()->create([...$validated, 'user_id' => auth()->id()]);
             if ($request->hasFile('thumbnail')) {
-                $validated['thumbnail_url'] = $request->file('thumbnail')->store('thumbnails', 'public');
+                $file = $request->file('thumbnail');
+                $fileName = Str::random(10) . '.' . $file->getClientOriginalExtension();
+                $post->update(['thumbnail_url' => $file->storeAs("p/$post->id", $fileName, 'public')]);
             }
-
-            Post::query()->create([...$validated, 'user_id' => auth()->id()]);
-
             return redirect()->route('admin.posts.index')->with('success', 'Đăng bài viết thành công');
         }
         catch (Throwable $throwable) {
@@ -64,7 +65,6 @@ class PostController extends Controller
     public function show(Request $request, Post $post): Response
     {
         $categories = Category::getAll();
-        $post->thumbnail_url = Storage::url($post->thumbnail_url);
         return Inertia::render('admin/posts/edit', [
             'post' => $post,
             'categories' => $categories,
@@ -87,9 +87,9 @@ class PostController extends Controller
             if ($post->thumbnail_url) {
                 Storage::disk('public')->delete($post->thumbnail_url);
             }
-
-            // Lưu ảnh mới
-            $validated['thumbnail_url'] = $request->file('thumbnail')->store('thumbnails', 'public');
+            $file = $request->file('thumbnail');
+            $fileName = Str::random(10) . '.' . $file->getClientOriginalExtension();
+            $validated['thumbnail_url'] = $file->storeAs("p/$post->id", $fileName, 'public');
         }
 
         // Cập nhật bài viết

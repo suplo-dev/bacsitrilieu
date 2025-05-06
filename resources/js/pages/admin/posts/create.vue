@@ -26,7 +26,8 @@ const form = useForm({
     thumbnail: null,
     title: '',
     slug: '',
-    body: ''
+    body: '',
+    fake_view: 0,
 });
 
 const newThumbnailPreview = ref<string | null>(null);
@@ -127,6 +128,18 @@ const back = () => {
                     />
                     <p v-if="form.errors.slug" class="text-sm mt-2 text-red-500">
                         {{ form.errors.slug }}
+                    </p>
+                </div>
+
+                <Label class="content-center">Fake view</Label>
+                <div class="col-span-5">
+                    <Input
+                        v-model="form.fake_view"
+                        type="text"
+                        placeholder="Nhập fake view"
+                    />
+                    <p v-if="form.errors.fake_view" class="text-sm mt-2 text-red-500">
+                        {{ form.errors.fake_view }}
                     </p>
                 </div>
 

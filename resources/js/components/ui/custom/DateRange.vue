@@ -28,7 +28,8 @@ import {
 import {
     Calendar,
     ChevronLeft,
-    ChevronRight
+    ChevronRight,
+    X
 } from 'lucide-vue-next';
 import { type DateRange, RangeCalendarRoot, useDateFormatter } from 'reka-ui';
 import { createMonth, type Grid, toDate } from 'reka-ui/date';
@@ -44,8 +45,9 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const locale = ref('vi-VN');
+const locale = ref('en-US');
 const formatter = useDateFormatter(locale.value);
+const open = ref(false);
 
 const startMonth = startOfMonth(today())
 // Define the internal reactive states
@@ -90,6 +92,9 @@ watch(value, (newValue) => {
         start: newValue.start.toString(),
         end: newValue.end.toString()
     });
+    if (newValue.start && newValue.end) {
+        open.value = false;
+    }
 });
 
 function updateMonth(reference: 'first' | 'second', months: number) {
@@ -98,6 +103,14 @@ function updateMonth(reference: 'first' | 'second', months: number) {
     } else {
         secondMonthPlaceholder.value = secondMonthPlaceholder.value.add({ months });
     }
+}
+const clearDate = () => {
+    value.value.start = null;
+    value.value.end = null;
+    emit('update:modelValue', {
+        start: null,
+        end: null,
+    });
 }
 
 watch(placeholder, (_placeholder) => {
@@ -128,44 +141,55 @@ watch(secondMonthPlaceholder, (_secondMonthPlaceholder) => {
 
 <template>
     <div>
-        <Popover>
+        <Popover v-model:open="open">
             <PopoverTrigger as-child>
                 <Button
                     variant="outline"
-                    :class="
-                        cn(
-                            'w-full justify-start text-left font-normal',
-                            !value && 'text-muted-foreground',
-                        )
-                    "
+                    :class="cn(
+        'w-full justify-between items-center font-normal px-3 py-2',
+        !value && 'text-muted-foreground',
+    )"
                 >
-                    <Calendar class="mr-2 h-4 w-4" />
-                    <template v-if="value.start">
-                        <template v-if="value.end">
-                            {{
-                                formatter.custom(toDate(value.start), {
-                                    dateStyle: 'medium'
-                                })
-                            }}
-                            -
-                            {{
-                                formatter.custom(toDate(value.end), {
-                                    dateStyle: 'medium'
-                                })
-                            }}
-                        </template>
+                    <div class="flex items-center gap-2 overflow-hidden">
+                        <Calendar class="h-4 w-4 shrink-0" />
+                        <div class="truncate text-left">
+                            <template v-if="value.start">
+                                <template v-if="value.end">
+                                    {{
+                                        formatter.custom(toDate(value.start), {
+                                            dateStyle: 'medium'
+                                        })
+                                    }}
+                                    -
+                                    {{
+                                        formatter.custom(toDate(value.end), {
+                                            dateStyle: 'medium'
+                                        })
+                                    }}
+                                </template>
+                                <template v-else>
+                                    {{
+                                        formatter.custom(toDate(value.start), {
+                                            dateStyle: 'medium'
+                                        })
+                                    }}
+                                </template>
+                            </template>
+                            <template v-else>
+                                --- --, ---- - --- --, ----
+                            </template>
+                        </div>
+                    </div>
 
-                        <template v-else>
-                            {{
-                                formatter.custom(toDate(value.start), {
-                                    dateStyle: 'medium'
-                                })
-                            }}
-                        </template>
-                    </template>
-                    <template v-else>
-                        -- thg --, ---- - -- thg --, ----
-                    </template>
+                    <!-- Nút X clear -->
+                    <button
+                        v-if="value.start || value.end"
+                        type="button"
+                        @click.stop="clearDate"
+                        class="flex h-4 w-4 items-center justify-center rounded hover:bg-muted"
+                    >
+                        <X class="w-4 h-4"/>
+                    </button>
                 </Button>
             </PopoverTrigger>
             <PopoverContent class="w-auto p-0">

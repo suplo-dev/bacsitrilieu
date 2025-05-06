@@ -20,7 +20,7 @@ const props = defineProps({
 });
 
 console.log(usePage().props);
-const DEFAULT_IMAGE =  usePage().props.ziggy.url + '/storage/thumbnails/default.jpg'; // ảnh mặc định không thể xoá
+const DEFAULT_IMAGE =  'thumbnails/default.jpg'; // ảnh mặc định không thể xoá
 
 const form = useForm({
     category_id: props.post.category_id,
@@ -28,7 +28,8 @@ const form = useForm({
     title: props.post.title,
     slug: props.post.slug,
     body: props.post.body,
-    delete_thumbnail: false
+    delete_thumbnail: false,
+    fake_view: props.post.fake_view,
 });
 
 const originalThumbnail = props.post.thumbnail_url || DEFAULT_IMAGE;
@@ -117,7 +118,7 @@ const back = () => {
                         @change="handleFileChange"
                     />
                     <div class="relative w-64 mt-2">
-                        <img :src="currentThumbnail" alt="Thumbnail" class="rounded-md shadow w-full h-auto" />
+                        <img :src="$img(currentThumbnail)" alt="Thumbnail" class="rounded-md shadow w-full h-auto" />
                         <button
                             v-if="currentThumbnail !== DEFAULT_IMAGE"
                             @click="removeCurrentImage"
@@ -151,6 +152,18 @@ const back = () => {
                     />
                     <p v-if="form.errors.slug" class="text-sm mt-2 text-red-500">
                         {{ form.errors.slug }}
+                    </p>
+                </div>
+
+                <Label class="content-center">Fake view</Label>
+                <div class="col-span-5">
+                    <Input
+                        v-model="form.fake_view"
+                        type="text"
+                        placeholder="Nhập fake view"
+                    />
+                    <p v-if="form.errors.fake_view" class="text-sm mt-2 text-red-500">
+                        {{ form.errors.fake_view }}
                     </p>
                 </div>
 

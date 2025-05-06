@@ -12,7 +12,9 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Instrument Sans', ...defaultTheme.fontFamily.sans],
+                sans: ['Mulish', 'ui-sans-serif', 'system-ui', ...defaultTheme.fontFamily.sans],
+                dancing: ['"Dancing Script"', 'cursive'],
+                cooper: ['CooperBT', 'serif'],
             },
             borderRadius: {
                 lg: 'var(--radius)',
@@ -70,6 +72,11 @@ export default {
                     border: 'hsl(var(--sidebar-border))',
                     ring: 'hsl(var(--sidebar-ring))',
                 },
+            },
+            rotate: {
+                30: '30deg',
+                60: '60deg',
+                135: '135deg',
             },
         },
     },

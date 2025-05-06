@@ -2,6 +2,7 @@
 import { Head } from '@inertiajs/vue3';
 import Header from '@/layouts/Header.vue';
 import Footer from '@/layouts/Footer.vue';
+import BodyCategory2 from '@/layouts/BodyCategory2.vue';
 
 </script>
 
@@ -12,18 +13,14 @@ import Footer from '@/layouts/Footer.vue';
     </Head>
     <main class="w-full">
         <Header/>
-        <slot/>
+        <slot></slot>
+        <BodyCategory2/>
         <Footer/>
     </main>
 </template>
 <style scoped>
 .cover {
     border-bottom-right-radius: 128px;
-}
-
-.bg-blue-teal-gradient {
-    background: rgb(49, 130, 206);
-    background: linear-gradient(90deg, rgba(49, 130, 206, 1) 0%, rgb(39, 97, 180) 100%);
 }
 
 @media (min-width: 1024px) {

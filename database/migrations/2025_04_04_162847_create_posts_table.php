@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->longText('body');
             $table->string('thumbnail_url')->nullable();
+            $table->integer('fake_view')->default(0);
+            $table->integer('real_view')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

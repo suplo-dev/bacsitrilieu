@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { AlertDialog, Button, Combobox, DateRange, Input, Pagination } from '@/components/ui/custom';
 import { router, usePage } from '@inertiajs/vue3';
 
-import { Search, ExternalLink, Plus, Pencil, Trash } from 'lucide-vue-next';
+import { Search, Link, Plus, Pencil, Trash } from 'lucide-vue-next';
 import { ref } from 'vue'
 import dayjs from '@/plugin/dayjs'
 import {
@@ -90,30 +90,21 @@ const deletePost = () => {
                 <div class="space-y-2">
                     <Label for="keyword">Nhập từ khoá</Label>
                     <Input id="keyword" v-model="searchParams.keyword" type="text" placeholder="Nhập để tìm kiếm theo tiêu đề" class="pl-10"
-                           :icon="Search"></Input>
+                           :icon="Search" @input="searchPost"></Input>
                 </div>
                 <div class="space-y-2">
                     <Label for="category">Danh mục</Label>
-                    <combobox id="category" v-model="searchParams.category_id" :options="categories" placeholder="-- Chọn danh mục --" />
+                    <combobox id="category" v-model="searchParams.category_id" :options="categories" placeholder="-- Chọn danh mục --" @update:modelValue="searchPost"/>
                 </div>
                 <div class="space-y-2">
                     <Label for="user">Người đăng</Label>
-                    <combobox id="user" v-model="searchParams.user_id" :options="users" placeholder="-- Chọn người đăng --" />
+                    <combobox id="user" v-model="searchParams.user_id" :options="users" placeholder="-- Chọn người đăng --" @update:modelValue="searchPost"/>
                 </div>
                 <div class="space-y-2">
                     <Label for="created_at">Ngày đăng</Label>
-                    <date-range id="created_at" v-model="searchParams.date_range"/>
+                    <date-range id="created_at" v-model="searchParams.date_range" @update:modelValue="searchPost"/>
                 </div>
-                <div class="flex items-end">
-                    <Button type="submit" @click="searchPost">
-                        Tìm kiếm
-                    </Button>
-                    <Button class="ml-2" variant="secondary" @click="resetSearchParams">
-                        Đặt lại
-                    </Button>
-                </div>
-
-                <Button variant="green" class="w-2/3" @click="createPost    ">
+                <Button class="self-end w-2/3" @click="createPost">
                     <Plus class="size-4 text-white" />
                     Thêm bài viết
                 </Button>
@@ -127,6 +118,7 @@ const deletePost = () => {
                             <TableHead>Tiêu đề</TableHead>
                             <TableHead>Danh mục</TableHead>
                             <TableHead>Tác giả</TableHead>
+                            <TableHead>Lượt xem</TableHead>
                             <TableHead>Ngày đăng</TableHead>
                             <TableHead>Hành động</TableHead>
                         </TableRow>
@@ -134,13 +126,17 @@ const deletePost = () => {
                     <TableBody>
                         <TableRow v-if="posts.total" v-for="(post, index) in posts.data">
                             <TableCell> {{ index + 1 }}</TableCell>
-                            <TableCell class="flex"> {{ post.title }}
-                                <TextLink :href="route('post.show', {slug: post.slug})" class="text-sm" :tabindex="5">
-                                    <ExternalLink class="size-5 text-primary ml-2" />
+                            <TableCell class="text-left"> {{ post.title }} <br>
+                                <TextLink :href="route('post.show', {slug: post.slug})" class="text-sm flex text-primary" :tabindex="5">
+                                    {{ post.slug }}
+                                    <Link class="size-5 text-primary ml-2" />
                                 </TextLink>
                             </TableCell>
                             <TableCell> {{ post.category.name }}</TableCell>
                             <TableCell> {{ post.user.name }}</TableCell>
+                            <TableCell> {{ post.fake_view }} |
+                                <span class="text-primary">{{ post.real_view }}</span>
+                            </TableCell>
                             <TableCell> {{ dayjs(post.created_at).format('HH:mm DD/MM/YYYY') }}</TableCell>
                             <TableCell class="space-x-2">
                                 <Button @click="router.get(route('admin.posts.show', { post: post.id }))">

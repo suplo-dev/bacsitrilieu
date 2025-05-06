@@ -12,7 +12,7 @@ import {
     ComboboxList,
     ComboboxTrigger
 } from '@/components/ui/combobox';
-import { Check, ChevronsUpDown } from 'lucide-vue-next';
+import { Check, ChevronDown, X } from 'lucide-vue-next';
 
 const props = defineProps({
     options: {
@@ -55,6 +55,10 @@ const updateSelectedValue = (item: any) => {
     selectedValue.value = item[props.value] + ''; // Cập nhật giá trị ID
     emit('update:modelValue', item[props.value]); // Emit ra ngoài với ID
 };
+const clearSelectedValue = () => {
+    selectedValue.value = '';
+    emit('update:modelValue', ''); // Clear luôn cho parent
+};
 const displayValue = (val: any) => {
     const selectedOption = props.options.find(option => option[props.value] == (val?.[props.value] ?? selectedValue.value));
     return selectedOption ? selectedOption[props.label] + '' : null; // Cập nhật đối tượng đầy đủ
@@ -65,14 +69,24 @@ const displayValue = (val: any) => {
     <Combobox v-bind="{ by: props.label }">
         <ComboboxAnchor class="w-full">
             <div class="relative w-full items-center">
-                <ComboboxInput
-                    class="h-10"
-                    :display-value="displayValue"
-                    :placeholder="placeholder"
-                    v-model="selectedValue"
-                />
-                <ComboboxTrigger class="absolute end-0 inset-y-0 flex items-center justify-center px-3">
-                    <ChevronsUpDown class="size-4 text-muted-foreground" />
+                <ComboboxTrigger class="flex relative w-full">
+                    <ComboboxInput
+                        class="h-10 pr-10"
+                        :display-value="displayValue"
+                        :placeholder="placeholder"
+                        v-model="selectedValue"
+                    />
+                    <button
+                        v-if="selectedValue"
+                        type="button"
+                        @click.stop="clearSelectedValue"
+                        class="absolute end-0 inset-y-0 flex items-center justify-center px-3"
+                    >
+                        <X class="w-4 h-4" />
+                    </button>
+                    <div v-else class="absolute end-0 inset-y-0 flex items-center justify-center px-3">
+                        <ChevronDown class="size-4 text-muted-foreground" />
+                    </div>
                 </ComboboxTrigger>
             </div>
         </ComboboxAnchor>
@@ -89,7 +103,7 @@ const displayValue = (val: any) => {
                     :value="item"
                     @select="updateSelectedValue(item)"
                 >
-                    {{ item[props.label] }} <!-- Hiển thị label cho mỗi item -->
+                    {{ item[props.label] }}
                     <ComboboxItemIndicator>
                         <Check :class="cn('ml-auto h-4 w-4')" />
                     </ComboboxItemIndicator>

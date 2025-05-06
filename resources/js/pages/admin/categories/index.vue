@@ -74,7 +74,7 @@ const createCategory = () => {
 <!--                        Đặt lại-->
 <!--                    </Button>-->
 <!--                </div>-->
-                <Button variant="green" class="col-start-1 w-2/3" @click="createCategory">
+                <Button class="col-start-1 w-2/3" @click="createCategory">
                     <Plus class="size-4 text-white" />
                     Thêm danh mục
                 </Button>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\HomeController;
@@ -21,7 +22,7 @@ Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'admin', 'as' =>
         Route::get('/create', [AdminCategoryController::class, 'create'])->name('create');
         Route::post('/store', [AdminCategoryController::class, 'store'])->name('store');
         Route::get('/{category}/edit', [AdminCategoryController::class, 'show'])->name('show');
-        Route::post('/{category}/update', [AdminCategoryController::class, 'update'])->name('update');
+        Route::put('/{category}/update', [AdminCategoryController::class, 'update'])->name('update');
         Route::delete('/{category}/destroy', [AdminCategoryController::class, 'destroy'])->name('destroy');
     });
     Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
@@ -38,3 +39,4 @@ require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 
 Route::get('/{post:slug}', [PostController::class, 'show'])->name('post.show');
+Route::get('/{category:slug}', [CategoryController::class, 'show'])->name('category.show');

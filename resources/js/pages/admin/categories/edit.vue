@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Button, Combobox, Input } from '@/components/ui/custom';
 import { NotebookPen, Trash } from 'lucide-vue-next';
 import type { BreadcrumbItem } from '@/types';
+import { Textarea } from '@/components/ui/textarea';
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Trang chủ', href: route('dashboard') },
@@ -20,7 +21,11 @@ const props = defineProps({
 
 const form = useForm({
     name: props.category.name,
-    parent_id: props.category.parent_id
+    parent_id: props.category.parent_id,
+    slug: props.category.slug,
+    description: props.category.description,
+    background_color: props.category.background_color,
+    icon: props.category.icon
 });
 
 const updateCategory = () => {
@@ -41,6 +46,19 @@ const back = () => {
             <h3 class="text-2xl">Chỉnh sửa danh mục</h3>
 
             <div class="grid gap-4 md:grid-cols-6">
+
+                <Label class="content-center">Danh mục cha</Label>
+                <div class="col-span-5">
+                    <Combobox
+                        v-model="form.parent_id"
+                        :options="allCategories"
+                        placeholder="-- Không có --"
+                    />
+                    <p v-if="form.errors.parent_id" class="text-sm mt-2 text-red-500">
+                        {{ form.errors.parent_id }}
+                    </p>
+                </div>
+
                 <Label class="content-center">Tên danh mục</Label>
                 <div class="col-span-5">
                     <Input
@@ -53,15 +71,48 @@ const back = () => {
                     </p>
                 </div>
 
-                <Label class="content-center">Danh mục cha</Label>
+                <Label class="content-center">Slug</Label>
                 <div class="col-span-5">
-                    <Combobox
-                        v-model="form.parent_id"
-                        :options="allCategories"
-                        placeholder="-- Không có --"
+                    <Input
+                        v-model="form.slug"
+                        type="text"
+                        placeholder="Nhập slug"
                     />
-                    <p v-if="form.errors.parent_id" class="text-sm mt-2 text-red-500">
-                        {{ form.errors.parent_id }}
+                    <p v-if="form.errors.slug" class="text-sm mt-2 text-red-500">
+                        {{ form.errors.slug }}
+                    </p>
+                </div>
+
+                <Label class="content-center">Mô tả ngắn gọn</Label>
+                <div class="col-span-5">
+                    <Textarea
+                        v-model="form.description"
+                        placeholder="Mô tả ngắn gọn về danh mục"
+                    />
+                    <p v-if="form.errors.description" class="text-sm mt-2 text-red-500">
+                        {{ form.errors.description }}
+                    </p>
+                </div>
+
+
+                <Label class="content-center">Màu nền</Label>
+                <div class="col-span-5">
+                    <Input
+                        v-model="form.background_color"
+                        placeholder="VD: #FFFFFF"
+                    />
+                    <p v-if="form.errors.background_color" class="text-sm mt-2 text-red-500">
+                        {{ form.errors.background_color }}
+                    </p>
+                </div>
+
+                <Label class="content-center">Icon</Label>
+                <div class="col-span-5">
+                    <Textarea
+                        v-model="form.icon"
+                    />
+                    <p v-if="form.errors.icon" class="text-sm mt-2 text-red-500">
+                        {{ form.errors.icon }}
                     </p>
                 </div>
 

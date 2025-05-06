@@ -2,11 +2,19 @@
 </script>
 
 <template>
-    <footer class="bg-blue-teal-gradient relative px-4 py-24 text-white sm:px-8 lg:px-16 xl:px-40 2xl:px-64">
+    <footer class="bg-primary relative px-4 py-16 text-white sm:px-8 lg:px-16 xl:px-40 2xl:px-64">
         <div class="flex flex-col md:flex-row">
             <div class="w-full lg:mx-4 lg:w-2/6 lg:pr-8">
-                <h3 class="text-2xl font-bold">Bác sĩ trị liệu</h3>
-                <p class="text-gray-400">Trị liệu tương lai, phục hồi ngày mai</p>
+                <a :href="route('home')" class="flex text-2xl font-bold text-white">
+                    <!--                Bác sĩ trị liệu-->
+                    <img src="/storage/static/logo.png" class="w-24 mr-4" />
+                    <div class="content-center">
+                        <div class="font-cooper relative">Bác sĩ trị liệu
+                            <img src="/storage/static/iconTitle.png" class="absolute rotate-[30deg] w-8 top-[-10px] right-0">
+                        </div>
+                        <div class="font-dancing text-base">Trị liệu tương lai <br> Phục hồi ngày mai</div>
+                    </div>
+                </a>
             </div>
 
             <div v-if="$page.props.categories.category_footer" class="mt-8 w-full lg:mx-4 lg:mt-0 lg:w-1/6">
@@ -127,10 +135,6 @@
     border-bottom-right-radius: 128px;
 }
 
-.bg-blue-teal-gradient {
-    background: rgb(49, 130, 206);
-    background: linear-gradient(90deg, rgba(49, 130, 206, 1) 0%, rgb(39, 97, 180) 100%);
-}
 
 @media (min-width: 1024px) {
     .cover {
