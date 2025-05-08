@@ -16,7 +16,7 @@ class CategoryController extends Controller
 {
     public function show(Request $request, Category $category): Response
     {
-        $categories = Category::getAll();
+        $categories = Category::all();
         $post->update(['real_view' => $post->real_view + 1]);
         $post->load(['relatedPosts' => fn ($query) => $query->limit(10)]);
         return Inertia::render('ViewPost', [

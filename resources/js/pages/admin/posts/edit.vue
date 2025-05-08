@@ -78,7 +78,6 @@ const handleTitleChange = (e: Event) => {
 };
 
 const updatePost = () => {
-    console.log(form.body);
     form.post(route('admin.posts.update', props.post.id), {
         preserveScroll: true,
         forceFormData: true,

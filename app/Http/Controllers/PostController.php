@@ -13,7 +13,7 @@ class PostController extends Controller
 {
     public function show(Request $request, Post $post): Response
     {
-        $categories = Category::getAll();
+        $categories = Category::all();
         $post->increment('real_view');
         $post->load(['relatedPosts' => fn ($query) => $query->where('id', '!=', $post->id)->limit(10)]);
         return Inertia::render('ViewPost', [

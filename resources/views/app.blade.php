@@ -3,7 +3,11 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <meta property="og:image" content="https://yourwebsite.com/path/to/logo.png">
+        <meta property="og:image:alt" content="Your Logo Alt Text">
+        <meta property="og:title" content="Your Website Title">
+        <meta property="og:description" content="Description of your website">
+        <meta property="og:url" content="https://yourwebsite.com">
         {{-- Inline script to detect system dark mode preference and apply it immediately --}}
         <script>
             (function() {

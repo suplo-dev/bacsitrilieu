@@ -51,7 +51,9 @@ import SiteLayout from '@/layouts/SiteLayout.vue';
                         :href="category.slug"
                     >
                         <div>
-                            <div class="h-16 w-16 rounded-full bg-primary"></div>
+                            <div class="h-16 w-16 rounded-full bg-primary items-center flex justify-center">
+                                <img :src="category.icon" alt="">
+                            </div>
                         </div>
                         <div class="ml-8">
                             <h4 class="text-xl font-bold">{{ category.name }}</h4>

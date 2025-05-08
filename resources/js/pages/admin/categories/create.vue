@@ -4,9 +4,10 @@ import { Head, useForm, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { Label } from '@/components/ui/label';
 import { Button, Combobox, Input } from '@/components/ui/custom';
-import { NotebookPen, Trash } from 'lucide-vue-next';
+import { NotebookPen, Trash, PaintBucket } from 'lucide-vue-next';
 import type { BreadcrumbItem } from '@/types';
 import { Textarea } from '@/components/ui/textarea';
+import { ChromePicker } from 'vue-color';
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Trang chủ', href: route('dashboard') },
@@ -23,7 +24,7 @@ const form = useForm({
     slug: '',
     parent_id: null,
     description: '',
-    background_color: '',
+    background_color: '#ffffff',
     icon: '',
 });
 
@@ -46,6 +47,7 @@ const createCategory = () => {
         preserveScroll: true
     });
 };
+const showColorPicker = ref(false);
 
 const back = () => {
     router.get(route('admin.categories.index'));
@@ -104,18 +106,6 @@ const back = () => {
                         {{ form.errors.description }}
                     </p>
                 </div>
-
-                <Label class="content-center">Màu nền</Label>
-                <div class="col-span-5">
-                    <Input
-                        v-model="form.background_color"
-                        placeholder="VD: #FFFFFF"
-                    />
-                    <p v-if="form.errors.background_color" class="text-sm mt-2 text-red-500">
-                        {{ form.errors.background_color }}
-                    </p>
-                </div>
-
                 <Label class="content-center">Icon</Label>
                 <div class="col-span-5">
                     <Textarea
@@ -126,6 +116,31 @@ const back = () => {
                     </p>
                 </div>
 
+                <Label class="content-center">Màu nền</Label>
+                <div class="col-span-5 flex space-x-3">
+                    <Input
+                        v-model="form.background_color"
+                        placeholder="VD: #FFFFFF"
+                    />
+                    <Button @click="showColorPicker = !showColorPicker">
+                        <PaintBucket class="w-4 h-4" />
+                        Pick color
+                    </Button>
+                </div>
+                <label class="mt-5">Preview</label>
+                <div class="col-start-2 col-span-5">
+                    <p v-if="form.errors.background_color" class="text-sm mt-2 text-red-500">
+                        {{ form.errors.background_color }}
+                    </p>
+                    <div class="flex justify-between">
+                        <div class="rounded-full w-24 h-24 flex justify-center items-center" :style="{backgroundColor: form.background_color}">
+                            <img :src="form.icon" alt="">
+                        </div>
+                        <ChromePicker style="width: 50%" v-if="showColorPicker" v-model="form.background_color" class="mx-auto"
+                                      :formats="[]" />
+                    </div>
+
+                </div>
                 <div class="col-start-5 col-span-2 space-x-2 ms-auto">
                     <Button @click="createCategory" :disabled="form.processing">
                         <NotebookPen class="size-4 text-white" />

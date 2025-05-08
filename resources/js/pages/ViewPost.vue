@@ -11,7 +11,7 @@ const props = defineProps({
 <template>
     <SiteLayout>
         <section class="relative mx-auto px-4 py-8 sm:px-8 lg:px-16 xl:px-40 2xl:px-64">
-            <div class="text-2xl font-extrabold text-primary">{{ post.title }}</div>
+            <div class="text-4xl font-extrabold">{{ post.title }}</div>
             <div class="my-1 flex items-center justify-between text-sm text-gray-400">
                 <div class="flex items-center">
                     <Calendar class="mr-2 h-4 w-4" />

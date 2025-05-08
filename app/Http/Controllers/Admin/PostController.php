@@ -64,7 +64,7 @@ class PostController extends Controller
 
     public function show(Request $request, Post $post): Response
     {
-        $categories = Category::getAll();
+        $categories = Category::all();
         return Inertia::render('admin/posts/edit', [
             'post' => $post,
             'categories' => $categories,
@@ -93,13 +93,7 @@ class PostController extends Controller
         }
 
         // Cập nhật bài viết
-        $post->update([
-            'title' => $validated['title'],
-            'slug' => $validated['slug'],
-            'category_id' => $validated['category_id'],
-            'body' => $validated['body'],
-            'thumbnail_url' => $validated['thumbnail_url'] ?? $post->thumbnail_url,
-        ]);
+        $post->update($validated);
 
         return back()->with('success', 'Cập nhật bài viết thành công!');
     }

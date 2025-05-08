@@ -7,6 +7,8 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 import helper from '@/plugin/helper';
+import 'vue-color/style.css';
+
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {

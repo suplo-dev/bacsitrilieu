@@ -60,7 +60,7 @@ class CategoryController extends Controller
     {
         return Inertia::render('admin/categories/edit', [
             'category' => $category,
-            'allCategories' => Category::getAll()
+            'allCategories' => Category::all()
         ]);
     }
 
