@@ -14,6 +14,6 @@ defineProps<Props>();
 
 <template>
     <div class="bg-primary">
-        <img :src="$img('static/logo.png')" :class="className" v-bind="$attrs" />
+        <img src="storage/static/logo.png" :class="className" v-bind="$attrs" />
     </div>
 </template>
