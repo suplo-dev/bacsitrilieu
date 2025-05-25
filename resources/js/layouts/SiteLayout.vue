@@ -12,7 +12,9 @@ import BodyCategory2 from '@/layouts/BodyCategory2.vue';
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     </Head>
     <main class="w-full">
-        <Header/>
+        <slot name="header">
+            <Header/>
+        </slot>
         <slot></slot>
         <BodyCategory2/>
         <Footer/>

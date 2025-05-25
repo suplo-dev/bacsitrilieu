@@ -1,4 +1,4 @@
-<script setup lang="ts">
+    <script setup lang="ts">
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -126,15 +126,3 @@ import {
         </div>
     </header>
 </template>
-<style scoped>
-.cover {
-    border-bottom-right-radius: 128px;
-}
-
-
-@media (min-width: 1024px) {
-    .cover {
-        border-bottom-right-radius: 256px;
-    }
-}
-</style>

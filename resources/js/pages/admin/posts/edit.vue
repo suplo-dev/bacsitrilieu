@@ -19,7 +19,6 @@ const props = defineProps({
     users: Array
 });
 
-console.log(usePage().props);
 const DEFAULT_IMAGE =  'thumbnails/default.jpg'; // ảnh mặc định không thể xoá
 
 const form = useForm({
