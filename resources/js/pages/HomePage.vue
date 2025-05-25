@@ -196,7 +196,7 @@ import SiteLayout from '@/layouts/SiteLayout.vue';
     border-bottom-right-radius: 128px;
     overflow: hidden;
     background-color: #0a3e84;
-    background-image: url("storage/static/cover.png ");
+    background-image: url("/storage/static/cover.png");
     background-position: center;
     background-size: cover;
     opacity: 0.8;
